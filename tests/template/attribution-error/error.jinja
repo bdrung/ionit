@@ -1,0 +1,4 @@
+{% set mapping = {1: "one"} %}
+{% for number, string in mapping.items()|dictsort %}
+A number: {{ string }}
+{% endfor %}

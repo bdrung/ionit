@@ -1,0 +1,17 @@
+[Unit]
+Description=Render configuration files from Jinja templates
+Documentation=man:ionit(1)
+DefaultDependencies=no
+After=local-fs.target
+Before=network-pre.target openibd.service shutdown.target sysinit.target
+Wants=network-pre.target
+RequiresMountsFor=/usr
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/ionit
+ExecReload=/usr/bin/ionit
+
+[Install]
+WantedBy=multi-user.target
