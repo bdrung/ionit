@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+
+# Ensure that installed files will be used
+rm -f ionit ionit_plugin.py ionit.py
+ln -s /usr/bin/ionit ionit.py
+sed -i 's@"ionit"@"/usr/bin/ionit"@;s@"ionit_plugin.py"@"/usr/lib/python3/dist-packages/ionit_plugin.py"@' tests/__init__.py
+python3 -m unittest discover -v

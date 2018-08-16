@@ -1,0 +1,33 @@
+Source: ionit
+Section: utils
+Priority: optional
+Maintainer: Benjamin Drung <benjamin.drung@profitbricks.com>
+Build-Depends: debhelper (>= 11),
+               dh-python,
+               pandoc,
+               pylint3,
+               python3,
+               python3-flake8,
+               python3-jinja2,
+               python3-setuptools,
+               python3-yaml | python3-ruamel.yaml
+Standards-Version: 4.2.0
+Homepage: https://github.com/bdrung/ionit
+Vcs-Browser: https://github.com/bdrung/ionit
+Vcs-Git: https://github.com/bdrung/ionit.git
+
+Package: ionit
+Architecture: all
+Depends: python3-yaml | python3-ruamel.yaml,
+         ${misc:Depends},
+         ${python3:Depends}
+Description: Render configuration files from Jinja templates
+ ionit is a simple and small configuration templating tool. It collects a
+ context and renders Jinja templates in a given directory. The context can be
+ either static JSON or YAML files or dynamic Python files. Python files can also
+ define functions passed through to the rendering.
+ .
+ ionit comes with an early boot one shot service that is executed before the
+ networking service which allows one to generate configurations files for the
+ networking and other services before they are started. In this regard, ionit
+ can act as tiny stepbrother of cloud-init.
