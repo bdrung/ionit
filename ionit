@@ -75,8 +75,7 @@ def load_python_plugin(file_path, current_context):
             logger.exception("Calling collect_context() from '%s' failed:", file_path)
             raise PythonModuleException()
         context.update(new_context)
-
-    if not context:
+    elif not context:
         logger.warning("Python module '%s' does neither define a collect_context function, "
                        "nor export functions (using the ionit_plugin.function decorator).",
                        file_path)
