@@ -54,7 +54,10 @@ def load_python_plugin(file_path, current_context):
     try:
         if sys.version_info[:2] < (3, 5):
             # Backwards compatibility for Debian jessie
-            import imp  # pragma: no cover
+            import warnings  # pragma: no cover
+            with warnings.catch_warnings():  # pragma: no cover
+                warnings.simplefilter("ignore")
+                import imp
             module = imp.load_source(module_name, file_path)  # pragma: no cover
             del sys.modules[module_name]  # pragma: no cover
         else:
