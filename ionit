@@ -56,6 +56,7 @@ def load_python_plugin(file_path, current_context):
             # Backwards compatibility for Debian jessie
             import imp  # pragma: no cover
             module = imp.load_source(module_name, file_path)  # pragma: no cover
+            del sys.modules[module_name]  # pragma: no cover
         else:
             spec = importlib.util.spec_from_file_location(module_name, file_path)
             # module_from_spec not available in Python < 3.5.
