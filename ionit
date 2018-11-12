@@ -54,8 +54,12 @@ def load_python_plugin(file_path, current_context):
     try:
         if sys.version_info[:2] < (3, 5):
             # Backwards compatibility for Debian jessie
-            import imp  # pragma: no cover
+            import warnings  # pragma: no cover
+            with warnings.catch_warnings():  # pragma: no cover
+                warnings.simplefilter("ignore")
+                import imp
             module = imp.load_source(module_name, file_path)  # pragma: no cover
+            del sys.modules[module_name]  # pragma: no cover
         else:
             spec = importlib.util.spec_from_file_location(module_name, file_path)
             # module_from_spec not available in Python < 3.5.
@@ -75,8 +79,7 @@ def load_python_plugin(file_path, current_context):
             logger.exception("Calling collect_context() from '%s' failed:", file_path)
             raise PythonModuleException()
         context.update(new_context)
-
-    if not context:
+    elif not context:
         logger.warning("Python module '%s' does neither define a collect_context function, "
                        "nor export functions (using the ionit_plugin.function decorator).",
                        file_path)

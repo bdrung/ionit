@@ -63,6 +63,17 @@ class TestCollectContext(unittest.TestCase):
                 "neither define a collect_context function, nor export functions "
                 r"\(using the ionit_plugin.function decorator\)."))
 
+    def test_empty_context(self):
+        """Test: Run collect_context("tests/config/empty-context")"""
+        try:
+            with self.assertLogs("ionit", level="WARNING") as context_manager:
+                failures, context = collect_context(os.path.join(CONFIG_DIR, "empty-context"))
+        except AssertionError:
+            pass
+        self.assertEqual(failures, 0)
+        self.assertEqual(context, {})
+        self.assertEqual(context_manager.output, [])
+
     def test_ignoring_additional_files(self):
         """Test: Run collect_context("tests/config/additional-file")"""
         with self.assertLogs("ionit", level="INFO") as context_manager:
