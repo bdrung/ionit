@@ -1,0 +1,11 @@
+ionit 0.2 (2018-11-12)
+
+* Prevent false warning if collect_context returns empty dictionary
+* Run ionit service before ferm service
+* Fix loading different Python modules with the same name
+  (for tests with Python < 3.5)
+* Ignore deprecation warning for backward compatibility code
+
+ionit 0.1 (2018-08-16)
+
+* Initial release
