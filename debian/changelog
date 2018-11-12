@@ -1,3 +1,11 @@
+ionit (0.2-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Update my email to the new cloud.ionos.com domain
+  * Bump Standards-Version to 4.2.1 (no changes required)
+
+ -- Benjamin Drung <benjamin.drung@cloud.ionos.com>  Mon, 12 Nov 2018 13:17:27 +0100
+
 ionit (0.1-1) unstable; urgency=medium
 
   * Initial version. (Closes: #906280)
