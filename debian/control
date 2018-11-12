@@ -1,7 +1,7 @@
 Source: ionit
 Section: utils
 Priority: optional
-Maintainer: Benjamin Drung <benjamin.drung@profitbricks.com>
+Maintainer: Benjamin Drung <benjamin.drung@cloud.ionos.com>
 Build-Depends: debhelper (>= 11),
                dh-python,
                pandoc,
