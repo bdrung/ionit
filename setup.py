@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-# Copyright (C) 2018, Benjamin Drung <benjamin.drung@profitbricks.com>
+# Copyright (C) 2018, Benjamin Drung <benjamin.drung@cloud.ionos.com>
 #
 # Permission to use, copy, modify, and/or distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -42,7 +42,7 @@ if __name__ == "__main__":
             "or YAML files or dynamic Python files. Python files can also define functions passed "
             "through to the rendering."),
         author="Benjamin Drung",
-        author_email="benjamin.drung@profitbricks.com",
+        author_email="benjamin.drung@cloud.ionos.com",
         url="https://github.com/bdrung/ionit",
         license="ISC",
         install_requires=["jinja2"],
