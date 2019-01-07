@@ -1,3 +1,8 @@
+ionit 0.2.1 (2019-01-07)
+
+* Remove unnecessary pass statement to make pylint 2.2.2 happy
+  (fixes Debian bug #918550)
+
 ionit 0.2 (2018-11-12)
 
 * Prevent false warning if collect_context returns empty dictionary
