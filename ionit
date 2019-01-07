@@ -34,7 +34,6 @@ SCRIPT_NAME = "ionit"
 
 class PythonModuleException(Exception):
     """Exception raised when loading a Python context file fails"""
-    pass
 
 
 def load_python_plugin(file_path, current_context):
