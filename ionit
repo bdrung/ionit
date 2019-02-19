@@ -28,6 +28,7 @@ import yaml
 
 import ionit_plugin
 
+DEFAULT_CONFIG = "/etc/ionit"
 LOG_FORMAT = '%(asctime)s %(name)s %(levelname)s: %(message)s'
 SCRIPT_NAME = "ionit"
 
@@ -86,23 +87,32 @@ def load_python_plugin(file_path, current_context):
     return context
 
 
-def collect_context(path):
+def get_config_files(paths):
+    """Return files for the given paths (could either be files or directories)."""
+    logger = logging.getLogger(SCRIPT_NAME)
+    files = []
+    for path in paths:
+        logger.debug("Searching for configuration files in '%s'...", path)
+        try:
+            if os.path.isfile(path):
+                files.append(path)
+            else:
+                files += sorted([os.path.join(path, f) for f in os.listdir(path)])
+        except OSError as error:
+            logger.warning("Failed to read configuration directory: %s", error)
+    logger.debug("Configuration files: %s", files)
+    return files
+
+
+def collect_context(paths):
     """Collect context that will be used when rendering the templates"""
     logger = logging.getLogger(SCRIPT_NAME)
-    logger.debug("Collecting context from '%s'...", path)
-    try:
-        if os.path.isfile(path):
-            files = [path]
-        else:
-            files = sorted([os.path.join(path, f) for f in os.listdir(path)])
-    except OSError as error:
-        logger.warning("Failed to read configuration directory: %s", error)
-        files = []
+    logger.debug("Collecting context...")
 
     failures = 0
     context = {}
 
-    for file in files:
+    for file in get_config_files(paths):
         file_context = None
         extension = os.path.splitext(file)[1]
         try:
@@ -186,9 +196,9 @@ def render_templates(template_dir, context, template_extension):
 def main(argv):
     """Main function with argument parsing"""
     parser = argparse.ArgumentParser()
-    parser.add_argument("-c", "--config", default="/etc/ionit",
+    parser.add_argument("-c", "--config", action="append",
                         help="Configuration directory/file containing context for rendering "
-                             "(default: %(default)s)")
+                             "(default: %s)" % (DEFAULT_CONFIG,))
     parser.add_argument("-t", "--templates", default="/etc",
                         help="Directory to search for Jinja templates (default: %(default)s)")
     parser.add_argument("-e", "--template-extension", default="jinja",
@@ -199,6 +209,8 @@ def main(argv):
                         help="Decrease output verbosity to warnings and errors",
                         action="store_const", const=logging.WARNING)
     args = parser.parse_args(argv)
+    if args.config is None:
+        args.config = [DEFAULT_CONFIG]
     logging.basicConfig(level=args.log_level, format=LOG_FORMAT)
     logger = logging.getLogger(SCRIPT_NAME)
 
