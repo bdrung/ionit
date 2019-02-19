@@ -86,12 +86,15 @@ def load_python_plugin(file_path, current_context):
     return context
 
 
-def collect_context(directory):
+def collect_context(path):
     """Collect context that will be used when rendering the templates"""
     logger = logging.getLogger(SCRIPT_NAME)
-    logger.debug("Collecting context from '%s'...", directory)
+    logger.debug("Collecting context from '%s'...", path)
     try:
-        files = sorted(os.listdir(directory))
+        if os.path.isfile(path):
+            files = [path]
+        else:
+            files = sorted([os.path.join(path, f) for f in os.listdir(path)])
     except OSError as error:
         logger.warning("Failed to read configuration directory: %s", error)
         files = []
@@ -99,10 +102,9 @@ def collect_context(directory):
     failures = 0
     context = {}
 
-    for filename in files:
+    for file in files:
         file_context = None
-        file = os.path.join(directory, filename)
-        extension = os.path.splitext(filename)[1]
+        extension = os.path.splitext(file)[1]
         try:
             if extension == ".json":
                 logger.info("Reading configuration file '%s'...", file)
@@ -185,8 +187,8 @@ def main(argv):
     """Main function with argument parsing"""
     parser = argparse.ArgumentParser()
     parser.add_argument("-c", "--config", default="/etc/ionit",
-                        help="Configuration directory containing context for rendering (default: "
-                             "%(default)s)")
+                        help="Configuration directory/file containing context for rendering "
+                             "(default: %(default)s)")
     parser.add_argument("-t", "--templates", default="/etc",
                         help="Directory to search for Jinja templates (default: %(default)s)")
     parser.add_argument("-e", "--template-extension", default="jinja",

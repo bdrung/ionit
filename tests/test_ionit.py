@@ -46,6 +46,12 @@ class TestCollectContext(unittest.TestCase):
             "second": 2,
         }))
 
+    def test_configuration_file(self):
+        """Test: Run collect_context("tests/config/static/second.yaml")"""
+        self.assertEqual(collect_context(os.path.join(CONFIG_DIR, "static", "second.yaml")), (0, {
+            "second": 2,
+        }))
+
     def test_context_stacking(self):
         """Test: Run collect_context("tests/config/stacking")"""
         self.assertEqual(collect_context(os.path.join(CONFIG_DIR, "stacking")), (0, {
