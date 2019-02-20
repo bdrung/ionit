@@ -1,3 +1,8 @@
+ionit 0.3.0 (2019-02-20)
+
+* Support specifying a configuration file (instead of a directory)
+* Support specifying --config multiple times
+
 ionit 0.2.1 (2019-01-07)
 
 * Remove unnecessary pass statement to make pylint 2.2.2 happy
