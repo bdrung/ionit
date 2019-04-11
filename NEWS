@@ -1,3 +1,7 @@
+ionit 0.3.1 (2019-04-11)
+
+* Run ionit.service before systemd-modules-load.service
+
 ionit 0.3.0 (2019-02-20)
 
 * Support specifying a configuration file (instead of a directory)
