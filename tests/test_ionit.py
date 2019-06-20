@@ -33,30 +33,35 @@ class TestCollectContext(unittest.TestCase):
     """
 
     def test_collect_function(self):
-        """Test: Run collect_context("tests/config/function")"""
-        failures, context = collect_context(os.path.join(CONFIG_DIR, "function"))
+        """Test: Run collect_context(["tests/config/function"])"""
+        failures, context = collect_context([os.path.join(CONFIG_DIR, "function")])
         self.assertEqual(failures, 0)
         self.assertEqual(set(context.keys()), set(["answer_to_all_questions"]))
         self.assertEqual(context["answer_to_all_questions"](), 42)
 
     def test_collect_static_context(self):
-        """Test: Run collect_context("tests/config/static")"""
-        self.assertEqual(collect_context(os.path.join(CONFIG_DIR, "static")), (0, {
+        """Test: Run collect_context(["tests/config/static"])"""
+        self.assertEqual(collect_context([os.path.join(CONFIG_DIR, "static")]), (0, {
             "first": 1,
             "second": 2,
         }))
 
+    def test_configuration_file(self):
+        """Test: Run collect_context(["tests/config/static/second.yaml"])"""
+        self.assertEqual(collect_context([os.path.join(CONFIG_DIR, "static", "second.yaml")]),
+                         (0, {"second": 2}))
+
     def test_context_stacking(self):
-        """Test: Run collect_context("tests/config/stacking")"""
-        self.assertEqual(collect_context(os.path.join(CONFIG_DIR, "stacking")), (0, {
+        """Test: Run collect_context(["tests/config/stacking"])"""
+        self.assertEqual(collect_context([os.path.join(CONFIG_DIR, "stacking")]), (0, {
             "big_number": 1071,
             "small_number": 7,
         }))
 
     def test_empty_python_file(self):
-        """Test: Run collect_context("tests/config/empty")"""
+        """Test: Run collect_context(["tests/config/empty"])"""
         with self.assertLogs("ionit", level="WARNING") as context_manager:
-            self.assertEqual(collect_context(os.path.join(CONFIG_DIR, "empty")), (0, {}))
+            self.assertEqual(collect_context([os.path.join(CONFIG_DIR, "empty")]), (0, {}))
             self.assertEqual(len(context_manager.output), 1)
             self.assertRegex(context_manager.output[0], (
                 "WARNING:ionit:Python module '[^']+config/empty/empty.py' does "
@@ -64,10 +69,10 @@ class TestCollectContext(unittest.TestCase):
                 r"\(using the ionit_plugin.function decorator\)."))
 
     def test_empty_context(self):
-        """Test: Run collect_context("tests/config/empty-context")"""
+        """Test: Run collect_context(["tests/config/empty-context"])"""
         try:
             with self.assertLogs("ionit", level="WARNING") as context_manager:
-                failures, context = collect_context(os.path.join(CONFIG_DIR, "empty-context"))
+                failures, context = collect_context([os.path.join(CONFIG_DIR, "empty-context")])
         except AssertionError:
             pass
         self.assertEqual(failures, 0)
@@ -75,9 +80,9 @@ class TestCollectContext(unittest.TestCase):
         self.assertEqual(context_manager.output, [])
 
     def test_ignoring_additional_files(self):
-        """Test: Run collect_context("tests/config/additional-file")"""
+        """Test: Run collect_context(["tests/config/additional-file"])"""
         with self.assertLogs("ionit", level="INFO") as context_manager:
-            self.assertEqual(collect_context(os.path.join(CONFIG_DIR, "additional-file")),
+            self.assertEqual(collect_context([os.path.join(CONFIG_DIR, "additional-file")]),
                              (0, {"key": "value"}))
             self.assertEqual(len(context_manager.output), 2)
             self.assertRegex(context_manager.output[0], (
@@ -85,18 +90,19 @@ class TestCollectContext(unittest.TestCase):
                 "because it does not end with .*"))
 
     def test_invalid_json(self):
-        """Test: Run collect_context("tests/config/invalid-json")"""
+        """Test: Run collect_context(["tests/config/invalid-json"])"""
         with self.assertLogs("ionit", level="ERROR") as context_manager:
-            self.assertEqual(collect_context(os.path.join(CONFIG_DIR, "invalid-json")), (1, {}))
+            self.assertEqual(collect_context([os.path.join(CONFIG_DIR, "invalid-json")]), (1, {}))
             self.assertEqual(len(context_manager.output), 1)
             self.assertRegex(context_manager.output[0], (
                 "ERROR:ionit:Failed to read JSON from '[^']*config/invalid-json/invalid.json': "
                 r"Expecting property name enclosed in double quotes: line 3 column 1 \(char 22\)"))
 
     def test_invalid_python(self):
-        """Test: Run collect_context("tests/config/invalid-python")"""
+        """Test: Run collect_context(["tests/config/invalid-python"])"""
         with self.assertLogs("ionit", level="ERROR") as context_manager:
-            self.assertEqual(collect_context(os.path.join(CONFIG_DIR, "invalid-python")), (1, {}))
+            self.assertEqual(collect_context([os.path.join(CONFIG_DIR, "invalid-python")]),
+                             (1, {}))
             self.assertEqual(len(context_manager.output), 1)
             self.assertRegex(context_manager.output[0], re.compile(
                 "ERROR:ionit:Importing Python module '[^']*config/invalid-python/invalid.py' "
@@ -104,9 +110,9 @@ class TestCollectContext(unittest.TestCase):
                 flags=re.DOTALL))
 
     def test_invalid_yaml(self):
-        """Test: Run collect_context("tests/config/invalid-yaml")"""
+        """Test: Run collect_context(["tests/config/invalid-yaml"])"""
         with self.assertLogs("ionit", level="ERROR") as context_manager:
-            self.assertEqual(collect_context(os.path.join(CONFIG_DIR, "invalid-yaml")), (1, {}))
+            self.assertEqual(collect_context([os.path.join(CONFIG_DIR, "invalid-yaml")]), (1, {}))
             self.assertEqual(len(context_manager.output), 1)
             self.assertRegex(context_manager.output[0], (
                 "ERROR:ionit:Failed to read YAML from '[^']*config/invalid-yaml/invalid.yaml': "
@@ -116,7 +122,7 @@ class TestCollectContext(unittest.TestCase):
     def test_missing_directory(self):
         """Test: Non-existing context directory"""
         with self.assertLogs("ionit", level="WARNING") as context_manager:
-            self.assertEqual(collect_context(os.path.join(TESTS_DIR, "non-existing-directory")),
+            self.assertEqual(collect_context([os.path.join(TESTS_DIR, "non-existing-directory")]),
                              (0, {}))
             self.assertEqual(len(context_manager.output), 1)
             self.assertRegex(context_manager.output[0], (
@@ -124,9 +130,9 @@ class TestCollectContext(unittest.TestCase):
                 r"No such file or directory: '\S*non-existing-directory'"))
 
     def test_non_dict_context(self):
-        """Test failure for collect_context("tests/config/non-dict")"""
+        """Test failure for collect_context(["tests/config/non-dict"])"""
         with self.assertLogs("ionit", level="ERROR") as context_manager:
-            self.assertEqual(collect_context(os.path.join(CONFIG_DIR, "non-dict")), (1, {}))
+            self.assertEqual(collect_context([os.path.join(CONFIG_DIR, "non-dict")]), (1, {}))
             self.assertEqual(len(context_manager.output), 1)
             self.assertRegex(context_manager.output[0], (
                 "ERROR:ionit:Failed to update context with content from "
@@ -134,16 +140,16 @@ class TestCollectContext(unittest.TestCase):
                 "element #0 has length 1; 2 is required"))
 
     def test_python_module(self):
-        """Test: Run collect_context("tests/config/python")"""
-        self.assertEqual(collect_context(os.path.join(CONFIG_DIR, "python")), (0, {
+        """Test: Run collect_context(["tests/config/python"])"""
+        self.assertEqual(collect_context([os.path.join(CONFIG_DIR, "python")]), (0, {
             "small": 42,
             "big": 8000,
         }))
 
     def test_raise_exception(self):
-        """Test failure for collect_context("tests/config/exception")"""
+        """Test failure for collect_context(["tests/config/exception"])"""
         with self.assertLogs("ionit", level="ERROR") as context_manager:
-            self.assertEqual(collect_context(os.path.join(CONFIG_DIR, "exception")), (1, {}))
+            self.assertEqual(collect_context([os.path.join(CONFIG_DIR, "exception")]), (1, {}))
             self.assertEqual(len(context_manager.output), 1)
             self.assertRegex(context_manager.output[0], re.compile(
                 r"ERROR:ionit:Calling collect_context\(\) from '\S*config/exception/exception.py' "
@@ -230,6 +236,19 @@ class TestRendering(unittest.TestCase):
 
 class TestMain(unittest.TestCase):
     """Test main function"""
+    @unittest.mock.patch("ionit.DEFAULT_CONFIG", os.path.join(CONFIG_DIR, "function"))
+    def test_main_default_config(self):
+        """Test main() with default config"""
+        template_dir = os.path.join(TEMPLATE_DIR, "function")
+        try:
+            self.assertEqual(main(["-t", template_dir]), 0)
+            with open(os.path.join(template_dir, "Document")) as document_file:
+                self.assertEqual(document_file.read(), (
+                    "The answer to the Ultimate Question of Life, The Universe, "
+                    "and Everything is 42.\n"))
+        finally:
+            os.remove(os.path.join(template_dir, "Document"))
+
     def test_main_static(self):
         """Test main() with static context"""
         template_dir = os.path.join(TEMPLATE_DIR, "static")

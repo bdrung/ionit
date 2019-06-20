@@ -1,3 +1,17 @@
+ionit 0.3.2 (2019-06-20)
+
+* Run ionit.service before systemd-udev-trigger.service
+  (fixes Debian bug #919690)
+
+ionit 0.3.1 (2019-04-11)
+
+* Run ionit.service before systemd-modules-load.service
+
+ionit 0.3.0 (2019-02-20)
+
+* Support specifying a configuration file (instead of a directory)
+* Support specifying --config multiple times
+
 ionit 0.2.1 (2019-01-07)
 
 * Remove unnecessary pass statement to make pylint 2.2.2 happy

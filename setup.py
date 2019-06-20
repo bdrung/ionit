@@ -34,7 +34,7 @@ def systemd_unit_path():
 if __name__ == "__main__":
     setup(
         name="ionit",
-        version="0.2.1",
+        version="0.3.2",
         description="Render configuration files from Jinja templates",
         long_description=(
             "ionit is a simple and small configuration templating tool. It collects a context and "
