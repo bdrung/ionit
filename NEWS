@@ -1,3 +1,8 @@
+ionit 0.3.2 (2019-06-20)
+
+* Run ionit.service before systemd-udev-trigger.service
+  (fixes Debian bug #919690)
+
 ionit 0.3.1 (2019-04-11)
 
 * Run ionit.service before systemd-modules-load.service
