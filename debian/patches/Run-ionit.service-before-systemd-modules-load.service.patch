@@ -1,0 +1,33 @@
+From f56792f9b2d618d38207170d61f420bf58e26603 Mon Sep 17 00:00:00 2001
+From: Benjamin Drung <benjamin.drung@cloud.ionos.com>
+Date: Wed, 10 Apr 2019 13:30:47 +0200
+Subject: [PATCH] Run ionit.service before systemd-modules-load.service
+
+In case you want to render modprobe configuration files, the ionit
+service needs to run before systemd-modules-load.service (which runs
+also before sysinit.target and races with ionit.service).
+
+Therefore let ionit.service run explicitly before
+systemd-modules-load.service.
+
+Signed-off-by: Benjamin Drung <benjamin.drung@cloud.ionos.com>
+---
+ ionit.service | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ionit.service b/ionit.service
+index 1e23862..a67cc88 100644
+--- a/ionit.service
++++ b/ionit.service
+@@ -3,7 +3,7 @@ Description=Render configuration files from Jinja templates
+ Documentation=man:ionit(1)
+ DefaultDependencies=no
+ After=local-fs.target
+-Before=ferm.service network-pre.target openibd.service shutdown.target sysinit.target
++Before=ferm.service network-pre.target openibd.service shutdown.target sysinit.target systemd-modules-load.service
+ Wants=network-pre.target
+ RequiresMountsFor=/usr
+ 
+-- 
+2.20.1
+
