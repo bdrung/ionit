@@ -1,3 +1,13 @@
+ionit (0.3.2-1) unstable; urgency=medium
+
+  * New upstream release.
+    - Support specifying a configuration file
+    - Support specifying --config multiple times
+    - Run ionit.service before systemd-modules-load.service
+    - Run ionit.service before systemd-udev-trigger.service (Closes: #919690)
+
+ -- Benjamin Drung <benjamin.drung@cloud.ionos.com>  Thu, 20 Jun 2019 12:21:44 +0200
+
 ionit (0.2.1-1) unstable; urgency=medium
 
   * New upstream release.
