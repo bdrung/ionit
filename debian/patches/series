@@ -1,1 +1,2 @@
 Run-ionit.service-before-systemd-modules-load.service.patch
+Run-ionit.service-before-systemd-udev-trigger.service.patch

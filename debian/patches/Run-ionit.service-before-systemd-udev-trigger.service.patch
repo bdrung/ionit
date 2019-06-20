@@ -1,0 +1,40 @@
+From 11b6dbab36c0b1d983179d10e3a079e0f31102bc Mon Sep 17 00:00:00 2001
+From: Benjamin Drung <benjamin.drung@cloud.ionos.com>
+Date: Thu, 20 Jun 2019 12:14:42 +0200
+Subject: [PATCH] Run ionit.service before systemd-udev-trigger.service
+
+live-boot creates a `/etc/network/interfaces` file that contains an
+`allow-hotplug` entry for the network boot device `eth0`.
+`systemd-udev-trigger.service` executes
+`/lib/udev/rules.d/80-ifupdown.rules` which calls
+`/lib/udev/ifupdown-hotplug`. This scripts starts `ifup@eth0.service`.
+Afterwards `ionit` runs and might replace `allow-hotplug` by `auto` if a
+template `/etc/network/interfaces.jinja` is provided. Then
+`networking.service` and `ifup@eth0.service` will start at the same time
+and race.
+
+Therefore let `ionit.service` run before `systemd-udev-trigger.service`
+to support generating `/etc/network/interfaces`.
+
+Bug-Debian: https://bugs.debian.org/919690
+Signed-off-by: Benjamin Drung <benjamin.drung@cloud.ionos.com>
+---
+ ionit.service | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ionit.service b/ionit.service
+index a67cc88..8f56106 100644
+--- a/ionit.service
++++ b/ionit.service
+@@ -3,7 +3,7 @@ Description=Render configuration files from Jinja templates
+ Documentation=man:ionit(1)
+ DefaultDependencies=no
+ After=local-fs.target
+-Before=ferm.service network-pre.target openibd.service shutdown.target sysinit.target systemd-modules-load.service
++Before=ferm.service network-pre.target openibd.service shutdown.target sysinit.target systemd-modules-load.service systemd-udev-trigger.service
+ Wants=network-pre.target
+ RequiresMountsFor=/usr
+ 
+-- 
+2.20.1
+
