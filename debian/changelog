@@ -1,3 +1,10 @@
+ionit (0.3.2+really0.2.1-2) unstable; urgency=medium
+
+  * Drop After=local-fs.target from ionit.service to break dependency loop
+    (Closes: #931060)
+
+ -- Benjamin Drung <benjamin.drung@cloud.ionos.com>  Tue, 25 Jun 2019 13:18:08 +0200
+
 ionit (0.3.2+really0.2.1-1) unstable; urgency=medium
 
   * Run ionit.service before systemd-modules-load.service
