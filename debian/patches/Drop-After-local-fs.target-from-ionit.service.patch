@@ -1,0 +1,45 @@
+From ce7c305312bb68319784e2d693955297138c273a Mon Sep 17 00:00:00 2001
+From: Benjamin Drung <benjamin.drung@cloud.ionos.com>
+Date: Tue, 25 Jun 2019 12:00:24 +0200
+Subject: [PATCH] Drop After=local-fs.target from ionit.service
+
+Letting `ionit.service` run before `systemd-udev-trigger.service`
+introduces a dependency loop:
+
+```
+systemd[1]: systemd-udev-trigger.service: Found ordering cycle on ionit.service/start
+systemd[1]: systemd-udev-trigger.service: Found dependency on local-fs.target/start
+systemd[1]: systemd-udev-trigger.service: Found dependency on local-fs-pre.target/start
+systemd[1]: systemd-udev-trigger.service: Found dependency on multipathd.service/start
+```
+
+`systemd-udev-trigger.service` runs before `multipathd.service` which
+runs before `local-fs-pre.target` which runs before `local-fs.target`.
+`ionit.service` wants to run before `systemd-udev-trigger.service` but
+after `local-fs.target`.
+
+Therefore drop `After=local-fs.target` from `ionit.service` to break the
+dependency loop. `/etc` and `/usr` is probably mounted inside the initrd
+already.
+
+Bug-Debian: https://bugs.debian.org/931060
+Signed-off-by: Benjamin Drung <benjamin.drung@cloud.ionos.com>
+---
+ ionit.service | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/ionit.service b/ionit.service
+index 8f56106..4c4e1c8 100644
+--- a/ionit.service
++++ b/ionit.service
+@@ -2,7 +2,6 @@
+ Description=Render configuration files from Jinja templates
+ Documentation=man:ionit(1)
+ DefaultDependencies=no
+-After=local-fs.target
+ Before=ferm.service network-pre.target openibd.service shutdown.target sysinit.target systemd-modules-load.service systemd-udev-trigger.service
+ Wants=network-pre.target
+ RequiresMountsFor=/usr
+-- 
+2.20.1
+
