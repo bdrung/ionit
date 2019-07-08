@@ -1,3 +1,11 @@
+ionit (0.3.3-1) unstable; urgency=medium
+
+  * New upstream release.
+    - Drop After=local-fs.target from ionit.service to break dependency loop
+      (Closes: #931060)
+
+ -- Benjamin Drung <benjamin.drung@cloud.ionos.com>  Mon, 08 Jul 2019 12:44:10 +0200
+
 ionit (0.3.2-1) unstable; urgency=medium
 
   * New upstream release.
