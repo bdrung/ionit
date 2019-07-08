@@ -1,3 +1,8 @@
+ionit 0.3.3 (2019-07-08)
+
+* Drop After=local-fs.target from ionit.service to break dependency loop
+  (fixes Debian bug #931060)
+
 ionit 0.3.2 (2019-06-20)
 
 * Run ionit.service before systemd-udev-trigger.service

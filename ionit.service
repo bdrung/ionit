@@ -2,7 +2,6 @@
 Description=Render configuration files from Jinja templates
 Documentation=man:ionit(1)
 DefaultDependencies=no
-After=local-fs.target
 Before=ferm.service network-pre.target openibd.service shutdown.target sysinit.target systemd-modules-load.service systemd-udev-trigger.service
 Wants=network-pre.target
 RequiresMountsFor=/usr
