@@ -1,3 +1,7 @@
+ionit 0.3.4 (2019-12-03)
+
+* Fix issues found by pylint 2.4.4 (fixes Debian bug #946034)
+
 ionit 0.3.3 (2019-07-08)
 
 * Drop After=local-fs.target from ionit.service to break dependency loop
