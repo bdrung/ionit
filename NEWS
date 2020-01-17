@@ -1,3 +1,7 @@
+ionit 0.3.5 (2020-01-17)
+
+* Run ionit.service before ifupdown-pre.service
+
 ionit 0.3.4 (2019-12-03)
 
 * Fix issues found by pylint 2.4.4 (fixes Debian bug #946034)
