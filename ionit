@@ -65,9 +65,9 @@ def load_python_plugin(file_path, current_context):
             # module_from_spec not available in Python < 3.5.
             module = importlib.util.module_from_spec(spec)  # pylint: disable=no-member
             spec.loader.exec_module(module)
-    except Exception:
+    except Exception as error:
         logger.exception("Importing Python module '%s' failed:", file_path)
-        raise PythonModuleException()
+        raise PythonModuleException() from error
     finally:
         sys.dont_write_bytecode = dont_write_bytecode
 
@@ -75,9 +75,9 @@ def load_python_plugin(file_path, current_context):
     if hasattr(module, "collect_context"):
         try:
             new_context = module.collect_context(current_context)
-        except Exception:
+        except Exception as error:
             logger.exception("Calling collect_context() from '%s' failed:", file_path)
-            raise PythonModuleException()
+            raise PythonModuleException() from error
         context.update(new_context)
     elif not context:
         logger.warning("Python module '%s' does neither define a collect_context function, "
