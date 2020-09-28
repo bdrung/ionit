@@ -29,7 +29,7 @@ import yaml
 import ionit_plugin
 
 DEFAULT_CONFIG = "/etc/ionit"
-LOG_FORMAT = '%(asctime)s %(name)s %(levelname)s: %(message)s'
+LOG_FORMAT = "%(asctime)s %(name)s %(levelname)s: %(message)s"
 SCRIPT_NAME = "ionit"
 
 
@@ -55,6 +55,7 @@ def load_python_plugin(file_path, current_context):
         if sys.version_info[:2] < (3, 5):
             # Backwards compatibility for Debian jessie
             import warnings  # pragma: no cover, pylint: disable=import-outside-toplevel
+
             with warnings.catch_warnings():  # pragma: no cover
                 warnings.simplefilter("ignore")
                 import imp  # pylint: disable=import-outside-toplevel
@@ -80,9 +81,11 @@ def load_python_plugin(file_path, current_context):
             raise PythonModuleException() from error
         context.update(new_context)
     elif not context:
-        logger.warning("Python module '%s' does neither define a collect_context function, "
-                       "nor export functions (using the ionit_plugin.function decorator).",
-                       file_path)
+        logger.warning(
+            "Python module '%s' does neither define a collect_context function, "
+            "nor export functions (using the ionit_plugin.function decorator).",
+            file_path,
+        )
 
     return context
 
@@ -127,8 +130,11 @@ def collect_context(paths):
                 with open(file) as config_file:
                     file_context = yaml.load(config_file)
             else:
-                logger.info("Skipping configuration file '%s', because it does not end with "
-                            "'.json', '.py', or '.yaml'.", file)
+                logger.info(
+                    "Skipping configuration file '%s', "
+                    "because it does not end with '.json', '.py', or '.yaml'.",
+                    file,
+                )
                 continue
         except PythonModuleException:
             failures += 1
@@ -145,8 +151,7 @@ def collect_context(paths):
                 context.update(file_context)
             except (TypeError, ValueError) as error:
                 logger.debug("Current context: %s", context)
-                logger.error("Failed to update context with content from '%s': %s",
-                             file, error)
+                logger.error("Failed to update context with content from '%s': %s", file, error)
                 failures += 1
                 continue
 
@@ -160,9 +165,11 @@ def render_templates(template_dir, context, template_extension):
     logger = logging.getLogger(SCRIPT_NAME)
     logger.debug("Searching in directory '%s' for Jinja templates...", template_dir)
     failures = 0
-    env = jinja2.Environment(keep_trailing_newline=True,
-                             loader=jinja2.FileSystemLoader(template_dir),
-                             undefined=jinja2.StrictUndefined)
+    env = jinja2.Environment(
+        keep_trailing_newline=True,
+        loader=jinja2.FileSystemLoader(template_dir),
+        undefined=jinja2.StrictUndefined,
+    )
     for name in env.list_templates(extensions=[template_extension]):
         try:
             template = env.get_template(name)
@@ -196,18 +203,41 @@ def render_templates(template_dir, context, template_extension):
 def main(argv):
     """Main function with argument parsing"""
     parser = argparse.ArgumentParser()
-    parser.add_argument("-c", "--config", action="append",
-                        help="Configuration directory/file containing context for rendering "
-                             "(default: %s)" % (DEFAULT_CONFIG,))
-    parser.add_argument("-t", "--templates", default="/etc",
-                        help="Directory to search for Jinja templates (default: %(default)s)")
-    parser.add_argument("-e", "--template-extension", default="jinja",
-                        help="Extension to look for in template directory (default: %(default)s)")
-    parser.add_argument("--debug", dest="log_level", help="Print debug output",
-                        action="store_const", const=logging.DEBUG, default=logging.INFO)
-    parser.add_argument("-q", "--quiet", dest="log_level",
-                        help="Decrease output verbosity to warnings and errors",
-                        action="store_const", const=logging.WARNING)
+    parser.add_argument(
+        "-c",
+        "--config",
+        action="append",
+        help="Configuration directory/file containing context for rendering (default: %s)"
+        % (DEFAULT_CONFIG,),
+    )
+    parser.add_argument(
+        "-t",
+        "--templates",
+        default="/etc",
+        help="Directory to search for Jinja templates (default: %(default)s)",
+    )
+    parser.add_argument(
+        "-e",
+        "--template-extension",
+        default="jinja",
+        help="Extension to look for in template directory (default: %(default)s)",
+    )
+    parser.add_argument(
+        "--debug",
+        dest="log_level",
+        help="Print debug output",
+        action="store_const",
+        const=logging.DEBUG,
+        default=logging.INFO,
+    )
+    parser.add_argument(
+        "-q",
+        "--quiet",
+        dest="log_level",
+        help="Decrease output verbosity to warnings and errors",
+        action="store_const",
+        const=logging.WARNING,
+    )
     args = parser.parse_args(argv)
     if args.config is None:
         args.config = [DEFAULT_CONFIG]

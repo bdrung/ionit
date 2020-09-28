@@ -40,7 +40,8 @@ if __name__ == "__main__":
             "ionit is a simple and small configuration templating tool. It collects a context and "
             "renders Jinja templates in a given directory. The context can be either static JSON "
             "or YAML files or dynamic Python files. Python files can also define functions passed "
-            "through to the rendering."),
+            "through to the rendering."
+        ),
         author="Benjamin Drung",
         author_email="benjamin.drung@cloud.ionos.com",
         url="https://github.com/bdrung/ionit",
@@ -48,5 +49,5 @@ if __name__ == "__main__":
         install_requires=["jinja2"],
         scripts=["ionit"],
         py_modules=["ionit_plugin"],
-        data_files=[(systemd_unit_path(), ['ionit.service'])]
+        data_files=[(systemd_unit_path(), ["ionit.service"])],
     )
