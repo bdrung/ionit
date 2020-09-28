@@ -34,6 +34,7 @@ from .mock_open import NotMocked, mock_open
 
 class OrderedSet(collections.UserList):  # pylint: disable=too-many-ancestors
     """set subclass that remembers the order entries were added"""
+
     def add(self, element):
         """Add given element to set"""
         if element not in self.data:
@@ -42,6 +43,7 @@ class OrderedSet(collections.UserList):  # pylint: disable=too-many-ancestors
 
 class MockTest(unittest.TestCase):
     """Test mock_open()"""
+
     def test_open_same_file_twice(self):
         """Test opening the same mocked file twice"""
         with mock_open("test_file", "foo"):

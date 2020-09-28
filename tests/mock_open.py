@@ -34,9 +34,9 @@ import unittest.mock
 
 class NotMocked(Exception):
     """Raised when a file was opened which was not mocked"""
+
     def __init__(self, filename):
-        super(NotMocked, self).__init__(
-            "The file %s was opened, but not mocked." % filename)
+        super().__init__("The file %s was opened, but not mocked." % filename)
         self.filename = filename
 
 
@@ -79,7 +79,7 @@ def mock_open(filename, contents=None, exception=None, complain=True):
         open_files.add(file_.name)
         return file_
 
-    mocked_file = unittest.mock.patch('builtins.open', mock_file)
+    mocked_file = unittest.mock.patch("builtins.open", mock_file)
     mocked_file.start()
     try:
         yield
@@ -89,9 +89,9 @@ def mock_open(filename, contents=None, exception=None, complain=True):
     mocked_file.stop()
     try:
         open_files.remove(filename)
-    except KeyError:
+    except KeyError as error:
         if complain:
-            raise AssertionError("The file %s was not opened." % filename)
+            raise AssertionError("The file %s was not opened." % filename) from error
     for f_name in open_files:
         if complain:
             raise NotMocked(f_name)

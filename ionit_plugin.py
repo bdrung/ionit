@@ -17,13 +17,14 @@
 import logging
 
 
-class FunctionCollector():
+class FunctionCollector:
     """Collect functions for the Jinja renderer"""
+
     functions = {}
 
     def __new__(cls):
         # Singleton
-        if not hasattr(cls, 'instance') or not cls.instance:
+        if not hasattr(cls, "instance") or not cls.instance:
             cls.instance = super().__new__(cls)
         return cls.instance
 
