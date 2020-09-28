@@ -2,7 +2,7 @@ Source: ionit
 Section: utils
 Priority: optional
 Maintainer: Benjamin Drung <benjamin.drung@cloud.ionos.com>
-Build-Depends: debhelper-compat (= 12),
+Build-Depends: debhelper-compat (= 13),
                dh-python,
                pandoc,
                pylint (>= 2.2.2-2~) | pylint3,
