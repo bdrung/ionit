@@ -1,3 +1,10 @@
+ionit (0.3.6-2) unstable; urgency=medium
+
+  * Create/Remove empty /etc/ionit at install/purge (Closes: #977016)
+  * Bump Standards-Version to 4.5.1
+
+ -- Benjamin Drung <benjamin.drung@cloud.ionos.com>  Tue, 15 Dec 2020 12:48:40 +0100
+
 ionit (0.3.6-1) unstable; urgency=medium
 
   * New upstream release.
