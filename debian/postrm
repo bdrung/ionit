@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+
+if test "$1" = purge; then
+    if test -d /etc/ionit; then
+        rmdir --ignore-fail-on-non-empty /etc/ionit
+    fi
+fi
+
+#DEBHELPER#
