@@ -12,7 +12,7 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-"""test_flake8.py - Run flake8 check"""
+"""Run flake8 check."""
 
 import subprocess
 import sys
@@ -30,7 +30,7 @@ class Flake8TestCase(unittest.TestCase):
     """
 
     def test_flake8(self):
-        """Test: Run flake8 on Python source code"""
+        """Test: Run flake8 on Python source code."""
         cmd = [sys.executable, "-m", "flake8", "--max-line-length=99"] + get_source_files()
         if unittest_verbosity() >= 2:
             sys.stderr.write("Running following command:\n{}\n".format(" ".join(cmd)))
