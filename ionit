@@ -128,7 +128,7 @@ def collect_context(paths):
             elif extension == ".yaml":
                 logger.info("Reading configuration file '%s'...", file)
                 with open(file) as config_file:
-                    file_context = yaml.load(config_file)
+                    file_context = yaml.load(config_file, Loader=yaml.SafeLoader)
             else:
                 logger.info(
                     "Skipping configuration file '%s', "
