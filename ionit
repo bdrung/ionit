@@ -24,9 +24,14 @@ import os
 import sys
 
 import jinja2
-import yaml
 
 import ionit_plugin
+
+try:
+    import yaml
+except ImportError:
+    import ruamel.yaml as yaml
+
 
 DEFAULT_CONFIG = "/etc/ionit"
 LOG_FORMAT = "%(asctime)s %(name)s %(levelname)s: %(message)s"
