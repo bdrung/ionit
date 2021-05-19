@@ -66,6 +66,7 @@ Prerequisites
 The test cases have additional requirements:
 
 * flake8
+* isort
 * pylint
 
 Examples
