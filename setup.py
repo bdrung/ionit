@@ -44,6 +44,7 @@ if __name__ == "__main__":
         author="Benjamin Drung",
         author_email="benjamin.drung@ionos.com",
         url="https://github.com/bdrung/ionit",
+        project_urls={"Bug Tracker": "https://github.com/bdrung/ionit/issues"},
         license="ISC",
         install_requires=["jinja2"],
         scripts=["ionit"],
