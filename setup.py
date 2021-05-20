@@ -49,4 +49,5 @@ if __name__ == "__main__":
         scripts=["ionit"],
         py_modules=["ionit_plugin"],
         data_files=[(systemd_unit_path(), ["ionit.service"])],
+        python_requires=">=3.4",
     )
