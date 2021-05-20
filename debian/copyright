@@ -1,7 +1,7 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 
 Files: *
-Copyright: 2018-2019 Benjamin Drung <benjamin.drung@ionos.com>
+Copyright: 2018-2021 Benjamin Drung <benjamin.drung@ionos.com>
 License: ISC
  Permission to use, copy, modify, and/or distribute this software for any
  purpose with or without fee is hereby granted, provided that the above
