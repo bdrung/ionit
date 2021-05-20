@@ -60,7 +60,7 @@ if __name__ == "__main__":
             "Programming Language :: Python :: 3.8",
             "Programming Language :: Python :: 3.9",
         ],
-        install_requires=["jinja2"],
+        install_requires=["jinja2", "PyYAML"],
         scripts=["ionit"],
         py_modules=["ionit_plugin"],
         data_files=[(systemd_unit_path(), ["ionit.service"])],

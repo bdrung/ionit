@@ -60,7 +60,7 @@ Prerequisites
 * Python >= 3.4
 * Python modules:
   * jinja2
-  * yaml or ruamel.yaml
+  * PyYAML or ruamel.yaml
 * pandoc (to generate `ionit.1` man page from `ionit.1.md`)
 
 The test cases have additional requirements:
