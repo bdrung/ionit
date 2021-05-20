@@ -21,9 +21,7 @@ Vcs-Git: https://github.com/bdrung/ionit.git
 
 Package: ionit
 Architecture: all
-Depends: python3-yaml | python3-ruamel.yaml,
-         ${misc:Depends},
-         ${python3:Depends}
+Depends: ${misc:Depends}, ${python3:Depends}
 Description: Render configuration files from Jinja templates
  ionit is a simple and small configuration templating tool. It collects a
  context and renders Jinja templates in a given directory. The context can be
