@@ -136,10 +136,11 @@ Creating releases
 =================
 
 This project uses [semantic versioning](https://semver.org/). To create a
-release, increase the version in `setup.py`, document the noteworthy changes
-in `NEWS`, and commit the change. Tag the release:
+release, increase the version in `setup.py` and document the noteworthy changes
+in `NEWS`. Then commit the changes and tag the release:
 
 ```
+git commit -sm "Release ionit $(./setup.py --version)" NEWS setup.py
 git tag v$(./setup.py --version)
 ```
 
