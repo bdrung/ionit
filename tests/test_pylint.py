@@ -13,7 +13,7 @@
 # OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 # PERFORMANCE OF THIS SOFTWARE.
 
-"""test_pylint.py - Run pylint"""
+"""Run pylint."""
 
 import os
 import re
@@ -35,7 +35,7 @@ class PylintTestCase(unittest.TestCase):
     """
 
     def test_pylint(self):
-        """Test: Run pylint on Python source code"""
+        """Test: Run pylint on Python source code."""
 
         cmd = [sys.executable, "-m", "pylint", "--rcfile=" + CONFIG, "--"] + get_source_files()
         if unittest_verbosity() >= 2:

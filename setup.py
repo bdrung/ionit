@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-# Copyright (C) 2018-2019, Benjamin Drung <benjamin.drung@cloud.ionos.com>
+# Copyright (C) 2018-2021, Benjamin Drung <benjamin.drung@ionos.com>
 #
 # Permission to use, copy, modify, and/or distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -32,22 +32,37 @@ def systemd_unit_path():
 
 
 if __name__ == "__main__":
+    with open("README.md", "r", encoding="utf-8") as fh:
+        LONG_DESCRIPTION = fh.read()
+
     setup(
         name="ionit",
-        version="0.3.6",
+        version="0.3.7",
         description="Render configuration files from Jinja templates",
-        long_description=(
-            "ionit is a simple and small configuration templating tool. It collects a context and "
-            "renders Jinja templates in a given directory. The context can be either static JSON "
-            "or YAML files or dynamic Python files. Python files can also define functions passed "
-            "through to the rendering."
-        ),
+        long_description=LONG_DESCRIPTION,
+        long_description_content_type="text/markdown",
         author="Benjamin Drung",
-        author_email="benjamin.drung@cloud.ionos.com",
+        author_email="benjamin.drung@ionos.com",
         url="https://github.com/bdrung/ionit",
+        project_urls={"Bug Tracker": "https://github.com/bdrung/ionit/issues"},
         license="ISC",
-        install_requires=["jinja2"],
+        classifiers=[
+            "Development Status :: 5 - Production/Stable",
+            "Environment :: Console",
+            "License :: OSI Approved :: ISC License (ISCL)",
+            "Operating System :: POSIX",
+            "Programming Language :: Python :: 3",
+            "Programming Language :: Python :: 3 :: Only",
+            "Programming Language :: Python :: 3.4",
+            "Programming Language :: Python :: 3.5",
+            "Programming Language :: Python :: 3.6",
+            "Programming Language :: Python :: 3.7",
+            "Programming Language :: Python :: 3.8",
+            "Programming Language :: Python :: 3.9",
+        ],
+        install_requires=["jinja2", "PyYAML"],
         scripts=["ionit"],
         py_modules=["ionit_plugin"],
         data_files=[(systemd_unit_path(), ["ionit.service"])],
+        python_requires=">=3.4",
     )

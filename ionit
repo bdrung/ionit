@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-# Copyright (C) 2018-2019, Benjamin Drung <benjamin.drung@cloud.ionos.com>
+# Copyright (C) 2018-2021, Benjamin Drung <benjamin.drung@ionos.com>
 #
 # Permission to use, copy, modify, and/or distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -24,9 +24,14 @@ import os
 import sys
 
 import jinja2
-import yaml
 
 import ionit_plugin
+
+try:
+    import yaml
+except ImportError:
+    import ruamel.yaml as yaml
+
 
 DEFAULT_CONFIG = "/etc/ionit"
 LOG_FORMAT = "%(asctime)s %(name)s %(levelname)s: %(message)s"
@@ -128,7 +133,7 @@ def collect_context(paths):
             elif extension == ".yaml":
                 logger.info("Reading configuration file '%s'...", file)
                 with open(file) as config_file:
-                    file_context = yaml.load(config_file)
+                    file_context = yaml.load(config_file, Loader=yaml.SafeLoader)
             else:
                 logger.info(
                     "Skipping configuration file '%s', "

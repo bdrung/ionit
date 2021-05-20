@@ -1,3 +1,12 @@
+ionit 0.3.7 (2021-05-20)
+
+* Check import definition order with isort
+* Fix code format for older black versions
+* Add test case for black code formatter
+* Fix YAMLLoadWarning with PyYAML 5.1+
+* Add support for ruamel.yaml
+* setup.py: Add PyYAML as dependency
+
 ionit 0.3.6 (2020-09-28)
 
 * Address issues found by pylint 2.6.0 (fixes Debian bug #971138)

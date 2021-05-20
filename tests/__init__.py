@@ -1,4 +1,4 @@
-# Copyright (C) 2017, Benjamin Drung <benjamin.drung@cloud.ionos.com>
+# Copyright (C) 2017-2021, Benjamin Drung <benjamin.drung@ionos.com>
 #
 # Permission to use, copy, modify, and/or distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -12,16 +12,15 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-"""Helper functions for testing ionit"""
+"""Helper functions for testing ionit."""
 
 import inspect
 import os
-import sys
 import unittest
 
 
 def get_source_files():
-    """Return a list of sources files/directories (to check with flake8/pylint)"""
+    """Return a list of sources files/directories (to check with flake8/pylint)."""
     scripts = ["ionit"]
     modules = ["tests"]
     py_files = ["ionit_plugin.py", "setup.py"]
@@ -36,8 +35,7 @@ def get_source_files():
         if is_script:
             with open(code_file, "rb") as script_file:
                 shebang = script_file.readline().decode("utf-8")
-            if ((sys.version_info[0] == 3 and "python3" in shebang) or
-                    ("python" in shebang and "python3" not in shebang)):
+            if "python" in shebang:
                 files.append(code_file)
         else:
             files.append(code_file)
@@ -45,8 +43,10 @@ def get_source_files():
 
 
 def unittest_verbosity():
-    """Return the verbosity setting of the currently running unittest
-    program, or None if none is running.
+    """
+    Return the verbosity setting of the currently running unittest.
+
+    If no test is running, return 0.
     """
     frame = inspect.currentframe()
     while frame:
@@ -54,4 +54,4 @@ def unittest_verbosity():
         if isinstance(self, unittest.TestProgram):
             return self.verbosity
         frame = frame.f_back
-    return None  # pragma: no cover
+    return 0  # pragma: no cover

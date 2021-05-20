@@ -1,4 +1,4 @@
-# Copyright (C) 2018-2019, Benjamin Drung <benjamin.drung@cloud.ionos.com>
+# Copyright (C) 2018-2021, Benjamin Drung <benjamin.drung@ionos.com>
 #
 # Permission to use, copy, modify, and/or distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -281,8 +281,9 @@ class TestRendering(unittest.TestCase):
         template_dir = os.path.join(TEMPLATE_DIR, "static")
         context = {"first": "A", "second": "B"}
         with self.assertLogs("ionit", level="ERROR") as context_manager:
-            with mock_open(os.path.join(template_dir, "counting"),
-                           exception=PermissionError(13, "Permission denied"), complain=False):
+            counting_filename = os.path.join(template_dir, "counting")
+            permission_error = PermissionError(13, "Permission denied")
+            with mock_open(counting_filename, exception=permission_error, complain=False):
                 self.assertEqual(render_templates(template_dir, context, "jinja"), 1)
             self.assertFalse(os.path.exists(os.path.join(template_dir, "counting")))
             self.assertEqual(len(context_manager.output), 1)
