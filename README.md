@@ -150,3 +150,10 @@ name="ionit-$(./setup.py --version)"
 git archive --prefix="$name/" HEAD | xz -c9 > "../$name.tar.xz"
 gpg --output "../$name.tar.xz.asc" --armor --detach-sign "../$name.tar.xz"
 ```
+
+The package for PyPI can be built and uploaded by running:
+
+```
+pyproject-build --no-isolation
+twine upload --repository pypi dist/*
+```
