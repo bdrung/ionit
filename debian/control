@@ -2,8 +2,10 @@ Source: ionit
 Section: utils
 Priority: optional
 Maintainer: Benjamin Drung <benjamin.drung@cloud.ionos.com>
-Build-Depends: debhelper-compat (= 13),
+Build-Depends: black,
+               debhelper-compat (= 13),
                dh-python,
+               isort,
                pandoc,
                pylint (>= 2.2.2-2~) | pylint3,
                python3,
