@@ -1,3 +1,11 @@
+[![CI](https://img.shields.io/github/workflow/status/bdrung/ionit/CI)](https://github.com/bdrung/ionit/actions/workflows/ci.yaml)
+[![Codecov](https://img.shields.io/codecov/c/github/bdrung/ionit)](https://codecov.io/gh/bdrung/ionit)
+[![Code Style: black](https://img.shields.io/badge/code%20style-black-black)](https://github.com/psf/black)
+[![License: ISC](https://img.shields.io/badge/license-ISC-blue)](LICENSE)
+[![Debian package](https://img.shields.io/debian/v/ionit/unstable)](https://tracker.debian.org/pkg/ionit)
+[![PyPI project](https://img.shields.io/pypi/v/ionit)](https://pypi.org/project/ionit/)
+[![Ubuntu package](https://img.shields.io/ubuntu/v/ionit)](https://launchpad.net/ubuntu/+source/ionit)
+
 ionit
 =====
 
