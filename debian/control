@@ -1,7 +1,7 @@
 Source: ionit
 Section: utils
 Priority: optional
-Maintainer: Benjamin Drung <benjamin.drung@cloud.ionos.com>
+Maintainer: Benjamin Drung <benjamin.drung@ionos.com>
 Build-Depends: black,
                debhelper-compat (= 13),
                dh-python,
