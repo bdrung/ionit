@@ -1,3 +1,18 @@
+ionit (0.3.7-1) unstable; urgency=medium
+
+  * New upstream bug-fix release:
+    - Check import definition order with isort
+    - Add test case for black code formatter
+    - Fix YAMLLoadWarning with PyYAML 5.1+
+    - Fix support for ruamel.yaml
+    - setup.py: Add PyYAML as dependency
+  * Build-depend on black and isort
+  * Use py3dist-overrides for alternative yaml dependencies
+  * Update my email to the new ionos.com domain
+  * Update year in debian/copyright
+
+ -- Benjamin Drung <benjamin.drung@ionos.com>  Thu, 20 May 2021 20:30:09 +0200
+
 ionit (0.3.6-2) unstable; urgency=medium
 
   * Create/Remove empty /etc/ionit at install/purge (Closes: #977016)
