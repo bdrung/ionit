@@ -32,16 +32,15 @@ def systemd_unit_path():
 
 
 if __name__ == "__main__":
+    with open("README.md", "r", encoding="utf-8") as fh:
+        LONG_DESCRIPTION = fh.read()
+
     setup(
         name="ionit",
         version="0.3.6",
         description="Render configuration files from Jinja templates",
-        long_description=(
-            "ionit is a simple and small configuration templating tool. It collects a context and "
-            "renders Jinja templates in a given directory. The context can be either static JSON "
-            "or YAML files or dynamic Python files. Python files can also define functions passed "
-            "through to the rendering."
-        ),
+        long_description=LONG_DESCRIPTION,
+        long_description_content_type="text/markdown",
         author="Benjamin Drung",
         author_email="benjamin.drung@ionos.com",
         url="https://github.com/bdrung/ionit",
