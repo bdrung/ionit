@@ -1,3 +1,11 @@
+ionit (0.3.8-1) unstable; urgency=medium
+
+  * New upstream bug-fix release:
+    - tests: Mark ionit_plugin as first party module
+  * Let autopkgtest depend on black and ionit as well
+
+ -- Benjamin Drung <benjamin.drung@ionos.com>  Fri, 21 May 2021 09:27:45 +0200
+
 ionit (0.3.7-1) unstable; urgency=medium
 
   * New upstream bug-fix release:
