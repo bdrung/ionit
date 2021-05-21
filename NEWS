@@ -1,3 +1,7 @@
+ionit 0.3.7 (2021-05-21)
+
+* tests: Mark ionit_plugin as first party module
+
 ionit 0.3.7 (2021-05-20)
 
 * Check import definition order with isort
