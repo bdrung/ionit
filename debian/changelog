@@ -1,3 +1,10 @@
+ionit (0.4.0-1) unstable; urgency=medium
+
+  * New upstream release:
+    - Fix issues found by pylint 2.11.1 (Closes: #998574)
+
+ -- Benjamin Drung <benjamin.drung@ionos.com>  Fri, 05 Nov 2021 20:04:42 +0100
+
 ionit (0.3.8-1) unstable; urgency=medium
 
   * New upstream bug-fix release:
