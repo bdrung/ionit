@@ -47,8 +47,8 @@ class MockTest(unittest.TestCase):
     def test_open_same_file_twice(self):
         """Test opening the same mocked file twice"""
         with mock_open("test_file", "foo"):
-            with open("test_file") as first:
-                with open("test_file") as second:
+            with open("test_file", encoding="utf-8") as first:
+                with open("test_file", encoding="utf-8") as second:
                     self.assertEqual(first.read(), second.read())
                     first.seek(0)
                     self.assertEqual("foo", first.read())
@@ -65,13 +65,13 @@ class MockTest(unittest.TestCase):
         with self.assertRaises(NotMocked):
             with mock_open("file1", "foo"):
                 with mock_open("file2", "foo"):
-                    with open(__file__):
-                        with open("file1") as mocked_file1:
-                            with open("file2") as mocked_file2:
+                    with open(__file__, encoding="utf-8"):
+                        with open("file1", encoding="utf-8") as mocked_file1:
+                            with open("file2", encoding="utf-8") as mocked_file2:
                                 self.assertEqual(mocked_file1.read(), mocked_file2.read())
 
     def test_raise_exception(self):
         """Test raising an exception on mocked open()"""
         with self.assertRaises(PermissionError):
             with mock_open("file", exception=PermissionError(13, "Permission denied")):
-                open("file")  # pylint: disable=consider-using-with
+                open("file", encoding="utf-8")  # pylint: disable=consider-using-with

@@ -34,7 +34,7 @@ class TestCollectContext(unittest.TestCase):
 
     def test_collect_function(self):
         """Test: Run collect_context(["tests/config/function"])"""
-        failures, context = collect_context([os.path.join(CONFIG_DIR, "function")])
+        failures, context = collect_context([os.path.join(CONFIG_DIR, "function")], "utf-8")
         self.assertEqual(failures, 0)
         self.assertEqual(set(context.keys()), set(["answer_to_all_questions"]))
         self.assertEqual(context["answer_to_all_questions"](), 42)
@@ -42,27 +42,30 @@ class TestCollectContext(unittest.TestCase):
     def test_collect_static_context(self):
         """Test: Run collect_context(["tests/config/static"])"""
         self.assertEqual(
-            collect_context([os.path.join(CONFIG_DIR, "static")]), (0, {"first": 1, "second": 2})
+            collect_context([os.path.join(CONFIG_DIR, "static")], "utf-8"),
+            (0, {"first": 1, "second": 2}),
         )
 
     def test_configuration_file(self):
         """Test: Run collect_context(["tests/config/static/second.yaml"])"""
         self.assertEqual(
-            collect_context([os.path.join(CONFIG_DIR, "static", "second.yaml")]),
+            collect_context([os.path.join(CONFIG_DIR, "static", "second.yaml")], "utf-8"),
             (0, {"second": 2}),
         )
 
     def test_context_stacking(self):
         """Test: Run collect_context(["tests/config/stacking"])"""
         self.assertEqual(
-            collect_context([os.path.join(CONFIG_DIR, "stacking")]),
+            collect_context([os.path.join(CONFIG_DIR, "stacking")], "utf-8"),
             (0, {"big_number": 1071, "small_number": 7}),
         )
 
     def test_empty_python_file(self):
         """Test: Run collect_context(["tests/config/empty"])"""
         with self.assertLogs("ionit", level="WARNING") as context_manager:
-            self.assertEqual(collect_context([os.path.join(CONFIG_DIR, "empty")]), (0, {}))
+            self.assertEqual(
+                collect_context([os.path.join(CONFIG_DIR, "empty")], "utf-8"), (0, {})
+            )
             self.assertEqual(len(context_manager.output), 1)
             self.assertRegex(
                 context_manager.output[0],
@@ -77,7 +80,9 @@ class TestCollectContext(unittest.TestCase):
         """Test: Run collect_context(["tests/config/empty-context"])"""
         try:
             with self.assertLogs("ionit", level="WARNING") as context_manager:
-                failures, context = collect_context([os.path.join(CONFIG_DIR, "empty-context")])
+                failures, context = collect_context(
+                    [os.path.join(CONFIG_DIR, "empty-context")], "utf-8"
+                )
         except AssertionError:
             pass
         self.assertEqual(failures, 0)
@@ -88,7 +93,7 @@ class TestCollectContext(unittest.TestCase):
         """Test: Run collect_context(["tests/config/additional-file"])"""
         with self.assertLogs("ionit", level="INFO") as context_manager:
             self.assertEqual(
-                collect_context([os.path.join(CONFIG_DIR, "additional-file")]),
+                collect_context([os.path.join(CONFIG_DIR, "additional-file")], "utf-8"),
                 (0, {"key": "value"}),
             )
             self.assertEqual(len(context_manager.output), 2)
@@ -103,7 +108,9 @@ class TestCollectContext(unittest.TestCase):
     def test_invalid_json(self):
         """Test: Run collect_context(["tests/config/invalid-json"])"""
         with self.assertLogs("ionit", level="ERROR") as context_manager:
-            self.assertEqual(collect_context([os.path.join(CONFIG_DIR, "invalid-json")]), (1, {}))
+            self.assertEqual(
+                collect_context([os.path.join(CONFIG_DIR, "invalid-json")], "utf-8"), (1, {})
+            )
             self.assertEqual(len(context_manager.output), 1)
             self.assertRegex(
                 context_manager.output[0],
@@ -118,7 +125,7 @@ class TestCollectContext(unittest.TestCase):
         """Test: Run collect_context(["tests/config/invalid-python"])"""
         with self.assertLogs("ionit", level="ERROR") as context_manager:
             self.assertEqual(
-                collect_context([os.path.join(CONFIG_DIR, "invalid-python")]), (1, {})
+                collect_context([os.path.join(CONFIG_DIR, "invalid-python")], "utf-8"), (1, {})
             )
             self.assertEqual(len(context_manager.output), 1)
             self.assertRegex(
@@ -134,7 +141,9 @@ class TestCollectContext(unittest.TestCase):
     def test_invalid_yaml(self):
         """Test: Run collect_context(["tests/config/invalid-yaml"])"""
         with self.assertLogs("ionit", level="ERROR") as context_manager:
-            self.assertEqual(collect_context([os.path.join(CONFIG_DIR, "invalid-yaml")]), (1, {}))
+            self.assertEqual(
+                collect_context([os.path.join(CONFIG_DIR, "invalid-yaml")], "utf-8"), (1, {})
+            )
             self.assertEqual(len(context_manager.output), 1)
             self.assertRegex(
                 context_manager.output[0],
@@ -149,7 +158,8 @@ class TestCollectContext(unittest.TestCase):
         """Test: Non-existing context directory"""
         with self.assertLogs("ionit", level="WARNING") as context_manager:
             self.assertEqual(
-                collect_context([os.path.join(TESTS_DIR, "non-existing-directory")]), (0, {})
+                collect_context([os.path.join(TESTS_DIR, "non-existing-directory")], "utf-8"),
+                (0, {}),
             )
             self.assertEqual(len(context_manager.output), 1)
             self.assertRegex(
@@ -163,7 +173,9 @@ class TestCollectContext(unittest.TestCase):
     def test_non_dict_context(self):
         """Test failure for collect_context(["tests/config/non-dict"])"""
         with self.assertLogs("ionit", level="ERROR") as context_manager:
-            self.assertEqual(collect_context([os.path.join(CONFIG_DIR, "non-dict")]), (1, {}))
+            self.assertEqual(
+                collect_context([os.path.join(CONFIG_DIR, "non-dict")], "utf-8"), (1, {})
+            )
             self.assertEqual(len(context_manager.output), 1)
             self.assertRegex(
                 context_manager.output[0],
@@ -177,13 +189,16 @@ class TestCollectContext(unittest.TestCase):
     def test_python_module(self):
         """Test: Run collect_context(["tests/config/python"])"""
         self.assertEqual(
-            collect_context([os.path.join(CONFIG_DIR, "python")]), (0, {"small": 42, "big": 8000})
+            collect_context([os.path.join(CONFIG_DIR, "python")], "utf-8"),
+            (0, {"small": 42, "big": 8000}),
         )
 
     def test_raise_exception(self):
         """Test failure for collect_context(["tests/config/exception"])"""
         with self.assertLogs("ionit", level="ERROR") as context_manager:
-            self.assertEqual(collect_context([os.path.join(CONFIG_DIR, "exception")]), (1, {}))
+            self.assertEqual(
+                collect_context([os.path.join(CONFIG_DIR, "exception")], "utf-8"), (1, {})
+            )
             self.assertEqual(len(context_manager.output), 1)
             self.assertRegex(
                 context_manager.output[0],
@@ -204,7 +219,7 @@ class TestRendering(unittest.TestCase):
         """Test: Run render_templates("tests/template/attribution-error")"""
         template_dir = os.path.join(TEMPLATE_DIR, "attribution-error")
         with self.assertLogs("ionit", level="ERROR") as context_manager:
-            self.assertEqual(render_templates(template_dir, {}, "jinja"), 1)
+            self.assertEqual(render_templates(template_dir, {}, "jinja", "utf-8"), 1)
             self.assertFalse(os.path.exists(os.path.join(template_dir, "error")))
             self.assertEqual(len(context_manager.output), 1)
             self.assertRegex(
@@ -220,7 +235,7 @@ class TestRendering(unittest.TestCase):
         """Test: Missing context for render_templates("tests/template/static")"""
         template_dir = os.path.join(TEMPLATE_DIR, "static")
         with self.assertLogs("ionit", level="ERROR") as context_manager:
-            self.assertEqual(render_templates(template_dir, {"second": "B"}, "jinja"), 1)
+            self.assertEqual(render_templates(template_dir, {"second": "B"}, "jinja", "utf-8"), 1)
             self.assertFalse(os.path.exists(os.path.join(template_dir, "counting")))
             self.assertEqual(len(context_manager.output), 1)
             self.assertRegex(
@@ -237,8 +252,8 @@ class TestRendering(unittest.TestCase):
         template_dir = os.path.join(TEMPLATE_DIR, "function")
         try:
             context = {"answer_to_all_questions": lambda: 42}
-            self.assertEqual(render_templates(template_dir, context, "jinja"), 0)
-            with open(os.path.join(template_dir, "Document")) as document_file:
+            self.assertEqual(render_templates(template_dir, context, "jinja", "utf-8"), 0)
+            with open(os.path.join(template_dir, "Document"), encoding="utf-8") as document_file:
                 self.assertEqual(
                     document_file.read(),
                     (
@@ -253,7 +268,7 @@ class TestRendering(unittest.TestCase):
         """Test: Run render_templates("tests/template/invalid")"""
         template_dir = os.path.join(TEMPLATE_DIR, "invalid")
         with self.assertLogs("ionit", level="ERROR") as context_manager:
-            self.assertEqual(render_templates(template_dir, {}, "jinja"), 1)
+            self.assertEqual(render_templates(template_dir, {}, "jinja", "utf-8"), 1)
             self.assertFalse(os.path.exists(os.path.join(template_dir, "invalid")))
             self.assertEqual(len(context_manager.output), 1)
             self.assertRegex(
@@ -270,8 +285,8 @@ class TestRendering(unittest.TestCase):
         template_dir = os.path.join(TEMPLATE_DIR, "static")
         try:
             context = {"first": "A", "second": "B"}
-            self.assertEqual(render_templates(template_dir, context, "jinja"), 0)
-            with open(os.path.join(template_dir, "counting")) as counting_file:
+            self.assertEqual(render_templates(template_dir, context, "jinja", "utf-8"), 0)
+            with open(os.path.join(template_dir, "counting"), encoding="utf-8") as counting_file:
                 self.assertEqual(counting_file.read(), "Counting:\n* A\n* B\n* 3\n")
         finally:
             os.remove(os.path.join(template_dir, "counting"))
@@ -284,7 +299,7 @@ class TestRendering(unittest.TestCase):
             counting_filename = os.path.join(template_dir, "counting")
             permission_error = PermissionError(13, "Permission denied")
             with mock_open(counting_filename, exception=permission_error, complain=False):
-                self.assertEqual(render_templates(template_dir, context, "jinja"), 1)
+                self.assertEqual(render_templates(template_dir, context, "jinja", "utf-8"), 1)
             self.assertFalse(os.path.exists(os.path.join(template_dir, "counting")))
             self.assertEqual(len(context_manager.output), 1)
             self.assertRegex(
@@ -305,7 +320,7 @@ class TestMain(unittest.TestCase):
         template_dir = os.path.join(TEMPLATE_DIR, "function")
         try:
             self.assertEqual(main(["-t", template_dir]), 0)
-            with open(os.path.join(template_dir, "Document")) as document_file:
+            with open(os.path.join(template_dir, "Document"), encoding="utf-8") as document_file:
                 self.assertEqual(
                     document_file.read(),
                     (
@@ -323,7 +338,7 @@ class TestMain(unittest.TestCase):
             self.assertEqual(
                 main(["-c", os.path.join(TESTS_DIR, "config/static"), "-t", template_dir]), 0
             )
-            with open(os.path.join(template_dir, "counting")) as counting_file:
+            with open(os.path.join(template_dir, "counting"), encoding="utf-8") as counting_file:
                 self.assertEqual(counting_file.read(), "Counting:\n* 1\n* 2\n* 3\n")
         finally:
             os.remove(os.path.join(template_dir, "counting"))
