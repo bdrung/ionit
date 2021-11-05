@@ -17,6 +17,7 @@ jobs:
           - ubuntu:focal
           - ubuntu:groovy
           - ubuntu:hirsute
+          - ubuntu:impish
           - ubuntu:latest
           - ubuntu:rolling
         yaml_package:
