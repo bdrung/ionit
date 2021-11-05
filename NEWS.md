@@ -1,3 +1,14 @@
+ionit 0.4.0 (2021-11-05)
+========================
+
+* Add `--encoding` option and default it to `utf-8`
+* Drop support for Python < 3.6
+* Fix issues found by pylint 2.11.1
+  (fixes [Debian bug #998574](https://bugs.debian.org/998574)):
+  * tests: Use `with` for `subprocess.Popen` calls
+  * Use `from ruamel import yaml`
+  * Replace `.format()` with f-strings
+
 ionit 0.3.7 (2021-05-21)
 ========================
 

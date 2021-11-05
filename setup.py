@@ -37,7 +37,7 @@ if __name__ == "__main__":
 
     setup(
         name="ionit",
-        version="0.3.8",
+        version="0.4.0",
         description="Render configuration files from Jinja templates",
         long_description=LONG_DESCRIPTION,
         long_description_content_type="text/markdown",
