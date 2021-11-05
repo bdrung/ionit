@@ -65,7 +65,7 @@ def collect_context(current_context):
 Prerequisites
 =============
 
-* Python >= 3.4
+* Python >= 3.6
 * Python modules:
   * jinja2
   * PyYAML or ruamel.yaml
