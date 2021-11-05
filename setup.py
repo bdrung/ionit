@@ -37,7 +37,7 @@ if __name__ == "__main__":
 
     setup(
         name="ionit",
-        version="0.3.8",
+        version="0.4.0",
         description="Render configuration files from Jinja templates",
         long_description=LONG_DESCRIPTION,
         long_description_content_type="text/markdown",
@@ -53,8 +53,6 @@ if __name__ == "__main__":
             "Operating System :: POSIX",
             "Programming Language :: Python :: 3",
             "Programming Language :: Python :: 3 :: Only",
-            "Programming Language :: Python :: 3.4",
-            "Programming Language :: Python :: 3.5",
             "Programming Language :: Python :: 3.6",
             "Programming Language :: Python :: 3.7",
             "Programming Language :: Python :: 3.8",
@@ -64,5 +62,5 @@ if __name__ == "__main__":
         scripts=["ionit"],
         py_modules=["ionit_plugin"],
         data_files=[(systemd_unit_path(), ["ionit.service"])],
-        python_requires=">=3.4",
+        python_requires=">=3.6",
     )

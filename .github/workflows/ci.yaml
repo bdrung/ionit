@@ -15,11 +15,10 @@ jobs:
           - debian:testing
           - debian:unstable
           - ubuntu:focal
-          - ubuntu:groovy
           - ubuntu:hirsute
+          - ubuntu:impish
           - ubuntu:latest
           - ubuntu:rolling
-          - ubuntu:devel
         yaml_package:
           - python3-ruamel.yaml
           - python3-yaml

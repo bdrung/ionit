@@ -36,7 +36,7 @@ class NotMocked(Exception):
     """Raised when a file was opened which was not mocked"""
 
     def __init__(self, filename):
-        super().__init__("The file %s was opened, but not mocked." % filename)
+        super().__init__(f"The file {filename} was opened, but not mocked.")
         self.filename = filename
 
 
@@ -60,7 +60,7 @@ def mock_open(filename, contents=None, exception=None, complain=True):
     """
     open_files = set()
 
-    def mock_file(*args):
+    def mock_file(*args, encoding=None):
         """Mocked open() function
 
         Takes the same arguments as the open() function.
@@ -74,7 +74,7 @@ def mock_open(filename, contents=None, exception=None, complain=True):
                 raise exception  # false positive; pylint: disable=raising-bad-type
         else:
             mocked_file.stop()
-            file_ = open(*args)
+            file_ = open(*args, encoding=encoding)  # pylint: disable=consider-using-with
             mocked_file.start()
         open_files.add(file_.name)
         return file_
@@ -91,7 +91,7 @@ def mock_open(filename, contents=None, exception=None, complain=True):
         open_files.remove(filename)
     except KeyError as error:
         if complain:
-            raise AssertionError("The file %s was not opened." % filename) from error
+            raise AssertionError(f"The file {filename} was not opened.") from error
     for f_name in open_files:
         if complain:
             raise NotMocked(f_name)
