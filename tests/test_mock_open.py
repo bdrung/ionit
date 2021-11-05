@@ -74,4 +74,4 @@ class MockTest(unittest.TestCase):
         """Test raising an exception on mocked open()"""
         with self.assertRaises(PermissionError):
             with mock_open("file", exception=PermissionError(13, "Permission denied")):
-                open("file")
+                open("file")  # pylint: disable=consider-using-with

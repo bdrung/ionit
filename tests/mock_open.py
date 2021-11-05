@@ -74,7 +74,7 @@ def mock_open(filename, contents=None, exception=None, complain=True):
                 raise exception  # false positive; pylint: disable=raising-bad-type
         else:
             mocked_file.stop()
-            file_ = open(*args)
+            file_ = open(*args)  # pylint: disable=consider-using-with
             mocked_file.start()
         open_files.add(file_.name)
         return file_
