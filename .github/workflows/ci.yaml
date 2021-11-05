@@ -19,7 +19,6 @@ jobs:
           - ubuntu:hirsute
           - ubuntu:latest
           - ubuntu:rolling
-          - ubuntu:devel
         yaml_package:
           - python3-ruamel.yaml
           - python3-yaml
