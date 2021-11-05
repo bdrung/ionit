@@ -201,8 +201,8 @@ def main(argv):
         "-c",
         "--config",
         action="append",
-        help="Configuration directory/file containing context for rendering (default: %s)"
-        % (DEFAULT_CONFIG,),
+        help="Configuration directory/file containing context for rendering "
+        f"(default: {DEFAULT_CONFIG})",
     )
     parser.add_argument(
         "-t",
