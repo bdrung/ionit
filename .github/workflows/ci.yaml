@@ -15,7 +15,6 @@ jobs:
           - debian:testing
           - debian:unstable
           - ubuntu:focal
-          - ubuntu:groovy
           - ubuntu:hirsute
           - ubuntu:impish
           - ubuntu:latest
