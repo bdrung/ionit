@@ -1,1 +1,3 @@
+# yamllint disable-file
+---
 invalid: yaml: file

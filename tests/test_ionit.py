@@ -150,7 +150,7 @@ class TestCollectContext(unittest.TestCase):
                 (
                     "ERROR:ionit:Failed to read YAML from "
                     r"'[^']*config/invalid-yaml/invalid.yaml': mapping values are not allowed "
-                    r"here\s+in \"\S*config/invalid-yaml/invalid.yaml\", line 1, column 14"
+                    r"here\s+in \"\S*config/invalid-yaml/invalid.yaml\", line 3, column 14"
                 ),
             )
 

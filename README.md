@@ -91,6 +91,7 @@ the context from one JSON and one YAML file and renders one template:
 user@host:~/ionit$ cat tests/config/static/first.json
 {"first": 1}
 user@host:~/ionit$ cat tests/config/static/second.yaml
+---
 second: 2
 user@host:~/ionit$ cat tests/template/static/counting.jinja
 Counting:
