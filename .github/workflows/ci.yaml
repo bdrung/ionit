@@ -18,6 +18,7 @@ jobs:
           - ubuntu:focal
           - ubuntu:hirsute
           - ubuntu:impish
+          - ubuntu:jammy
         yaml_package:
           - python3-ruamel.yaml
           - python3-yaml
