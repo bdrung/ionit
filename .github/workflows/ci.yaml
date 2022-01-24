@@ -19,7 +19,6 @@ jobs:
           - ubuntu:hirsute
           - ubuntu:impish
           - ubuntu:latest
-          - ubuntu:rolling
         yaml_package:
           - python3-ruamel.yaml
           - python3-yaml
