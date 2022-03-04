@@ -1,3 +1,9 @@
+ionit 0.4.1 (2022-03-04)
+========================
+
+* Make YAML files free of complaints from yamllint
+* Update my email address to @posteo.de
+
 ionit 0.4.0 (2021-11-05)
 ========================
 
