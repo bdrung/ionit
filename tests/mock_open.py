@@ -1,7 +1,7 @@
 # The MIT License (MIT)
 
 # Copyright (c) 2013 Ionuț Arțăriși <ionut@artarisi.eu>
-#               2018 Benjamin Drung <benjamin.drung@ionos.com>
+#               2018-2022 Benjamin Drung <bdrung@posteo.de>
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal

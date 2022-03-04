@@ -90,4 +90,4 @@ def collect_context(current_context):
 
 # AUTHOR
 
-Benjamin Drung <benjamin.drung@ionos.com>
+Benjamin Drung <bdrung@posteo.de>
