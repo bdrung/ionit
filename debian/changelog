@@ -1,3 +1,10 @@
+ionit (0.4.1-1) unstable; urgency=medium
+
+  * New upstream release
+  * Update my email address to @debian.org
+
+ -- Benjamin Drung <bdrung@debian.org>  Fri, 04 Mar 2022 16:07:52 +0100
+
 ionit (0.4.0-1) unstable; urgency=medium
 
   * New upstream release:
