@@ -342,3 +342,29 @@ class TestMain(unittest.TestCase):
                 self.assertEqual(counting_file.read(), "Counting:\n* 1\n* 2\n* 3\n")
         finally:
             os.remove(os.path.join(template_dir, "counting"))
+
+    def test_main_append_templates(self):
+        """Test main() with static context and multiple template directories"""
+        template_dir1 = os.path.join(TEMPLATE_DIR, "static")
+        template_dir2 = os.path.join(TEMPLATE_DIR, "static2")
+        try:
+            self.assertEqual(
+                main(
+                    [
+                        "-c",
+                        os.path.join(TESTS_DIR, "config/static"),
+                        "-t",
+                        template_dir1,
+                        "-t",
+                        template_dir2,
+                    ]
+                ),
+                0,
+            )
+            with open(os.path.join(template_dir1, "counting"), encoding="utf8") as counting_file:
+                self.assertEqual(counting_file.read(), "Counting:\n* 1\n* 2\n* 3\n")
+            with open(os.path.join(template_dir2, "counting"), encoding="utf8") as counting_file:
+                self.assertEqual(counting_file.read(), "1 is smaller than 2\n")
+        finally:
+            os.remove(os.path.join(template_dir1, "counting"))
+            os.remove(os.path.join(template_dir2, "counting"))
