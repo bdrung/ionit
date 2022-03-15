@@ -331,6 +331,17 @@ class TestMain(unittest.TestCase):
         finally:
             os.remove(os.path.join(template_dir, "Document"))
 
+    @unittest.mock.patch("ionit.DEFAULT_TEMPLATES_DIRECTORY", os.path.join(TEMPLATE_DIR, "static"))
+    def test_main_default_templates_directory(self):
+        """Test main() with default templates directory"""
+        template_dir = os.path.join(TEMPLATE_DIR, "static")
+        try:
+            self.assertEqual(main(["-c", os.path.join(TESTS_DIR, "config/static")]), 0)
+            with open(os.path.join(template_dir, "counting"), encoding="utf-8") as counting_file:
+                self.assertEqual(counting_file.read(), "Counting:\n* 1\n* 2\n* 3\n")
+        finally:
+            os.remove(os.path.join(template_dir, "counting"))
+
     def test_main_static(self):
         """Test main() with static context"""
         template_dir = os.path.join(TEMPLATE_DIR, "static")
