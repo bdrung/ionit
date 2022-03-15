@@ -34,9 +34,7 @@ except ImportError:
 
 
 DEFAULT_CONFIG = "/etc/ionit"
-DEFAULT_TEMPLATES = [
-    "/etc",
-]
+DEFAULT_TEMPLATES_DIRECTORY = "/etc"
 LOG_FORMAT = "%(asctime)s %(name)s %(levelname)s: %(message)s"
 SCRIPT_NAME = "ionit"
 
@@ -211,7 +209,7 @@ def main(argv):
         "-t",
         "--templates",
         action="append",
-        help=f"Directory to search for Jinja templates (default: {str(DEFAULT_TEMPLATES)[2:-2]})",
+        help=f"Directory to search for Jinja templates (default: {DEFAULT_TEMPLATES_DIRECTORY})",
     )
     parser.add_argument(
         "-e",
@@ -244,7 +242,7 @@ def main(argv):
     if args.config is None:
         args.config = [DEFAULT_CONFIG]
     if args.templates is None:
-        args.templates = DEFAULT_TEMPLATES
+        args.templates = [DEFAULT_TEMPLATES_DIRECTORY]
     logging.basicConfig(level=args.log_level, format=LOG_FORMAT)
     logger = logging.getLogger(SCRIPT_NAME)
 
