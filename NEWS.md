@@ -1,3 +1,9 @@
+ionit 0.5.0 (2022-03-16)
+========================
+
+* Support multiple templates folders (i.e. allow specifying `--templates`
+  multiple times) (#2)
+
 ionit 0.4.1 (2022-03-04)
 ========================
 
