@@ -16,8 +16,8 @@ Build-Depends: black,
 Standards-Version: 4.6.0
 Homepage: https://github.com/bdrung/ionit
 Rules-Requires-Root: no
-Vcs-Browser: https://github.com/bdrung/ionit
-Vcs-Git: https://github.com/bdrung/ionit.git
+Vcs-Browser: https://github.com/bdrung/ionit/tree/debian/unstable
+Vcs-Git: https://github.com/bdrung/ionit.git -b debian/unstable
 
 Package: ionit
 Architecture: all
