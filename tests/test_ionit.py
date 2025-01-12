@@ -16,6 +16,7 @@
 
 import os
 import re
+import sys
 import unittest
 
 from ionit import collect_context, main, render_templates
@@ -112,14 +113,24 @@ class TestCollectContext(unittest.TestCase):
                 collect_context([os.path.join(CONFIG_DIR, "invalid-json")], "utf-8"), (1, {})
             )
             self.assertEqual(len(context_manager.output), 1)
-            self.assertRegex(
-                context_manager.output[0],
-                (
-                    "ERROR:ionit:Failed to read JSON from "
-                    "'[^']*config/invalid-json/invalid.json': Expecting property name "
-                    r"enclosed in double quotes: line 3 column 1 \(char 22\)"
-                ),
-            )
+            if sys.version_info >= (3, 13):
+                self.assertRegex(
+                    context_manager.output[0],
+                    (
+                        "ERROR:ionit:Failed to read JSON from "
+                        "'[^']*config/invalid-json/invalid.json': Illegal trailing comma before "
+                        r"end of object: line 2 column 19 \(char 20\)"
+                    ),
+                )
+            else:
+                self.assertRegex(
+                    context_manager.output[0],
+                    (
+                        "ERROR:ionit:Failed to read JSON from "
+                        "'[^']*config/invalid-json/invalid.json': Expecting property name "
+                        r"enclosed in double quotes: line 3 column 1 \(char 22\)"
+                    ),
+                )
 
     def test_invalid_python(self):
         """Test: Run collect_context(["tests/config/invalid-python"])"""
