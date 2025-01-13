@@ -23,6 +23,11 @@ jobs:
     container:
       image: ${{ matrix.container }}
     steps:
+      - name: Sanitize container name (for artifact name)
+        run: >
+          container=$(echo "${{ matrix.container }}" | sed 's/:/-/') &&
+          echo "JOB=${GITHUB_JOB}-${container}-${{ matrix.yaml_package }}"
+          >> "$GITHUB_ENV"
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: >
@@ -34,15 +39,11 @@ jobs:
         run: |
           python3 -m coverage run -m unittest discover -v
           python3 -m coverage xml
-      - name: Install dependencies for Codecov
-        run: >
-          apt-get install --no-install-recommends --yes
-          ca-certificates curl git
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
         with:
-          fail_ci_if_error: true
-          functionalities: gcov
+          name: coverage-${{ env.JOB }}
+          path: ./coverage*.xml
 
   # Debian buster needs pylint3 instead of pylint
   unittest-debian-buster:
@@ -79,3 +80,18 @@ jobs:
       - name: Run yamllint
         run: |
           yamllint .
+
+  upload-to-codecov:
+    if: ${{ always() }}
+    needs:
+      - unittest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
