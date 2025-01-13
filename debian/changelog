@@ -1,3 +1,10 @@
+ionit (0.5.1-1) unstable; urgency=medium
+
+  * New upstream release
+    - Adjust for improved JSON error messages in Python 3.13 (Closes: #1092519)
+
+ -- Benjamin Drung <bdrung@debian.org>  Mon, 13 Jan 2025 12:24:28 +0100
+
 ionit (0.5.0-2) unstable; urgency=medium
 
   * Depend on pkgconf and systemd-dev for systemd.pc (Closes: #1073698)
