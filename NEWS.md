@@ -1,3 +1,9 @@
+ionit 0.5.1 (2025-01-13)
+========================
+
+* Fix `AttributeError: "load()" has been removed` when using ruamel.yaml 0.18
+* test: Adjust for improved JSON error messages in Python 3.13 (#3)
+
 ionit 0.5.0 (2022-03-16)
 ========================
 

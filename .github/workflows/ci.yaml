@@ -12,19 +12,26 @@ jobs:
       fail-fast: false
       matrix:
         container:
-          - debian:bullseye-slim
+          - debian:oldstable-slim
+          - debian:stable-slim
           - debian:testing-slim
           - debian:unstable-slim
           - ubuntu:focal
-          - ubuntu:hirsute
-          - ubuntu:impish
           - ubuntu:jammy
+          - ubuntu:latest
+          - ubuntu:rolling
+          - ubuntu:devel
         yaml_package:
           - python3-ruamel.yaml
           - python3-yaml
     container:
       image: ${{ matrix.container }}
     steps:
+      - name: Sanitize container name (for artifact name)
+        run: >
+          container=$(echo "${{ matrix.container }}" | sed 's/:/-/') &&
+          echo "JOB=${GITHUB_JOB}-${container}-${{ matrix.yaml_package }}"
+          >> "$GITHUB_ENV"
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: >
@@ -36,37 +43,11 @@ jobs:
         run: |
           python3 -m coverage run -m unittest discover -v
           python3 -m coverage xml
-      - name: Install dependencies for Codecov
-        run: >
-          apt-get install --no-install-recommends --yes
-          ca-certificates curl git
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
         with:
-          fail_ci_if_error: true
-          functionalities: gcov
-
-  # Debian buster needs pylint3 instead of pylint
-  unittest-debian-buster:
-    name: unittest debian:buster-slim
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        yaml_package:
-          - python3-ruamel.yaml
-          - python3-yaml
-    container:
-      image: debian:buster-slim
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install dependencies
-        run: >
-          apt-get update &&
-          apt-get install --no-install-recommends --yes black isort pylint3
-          python3 python3-flake8 python3-jinja2 ${{ matrix.yaml_package }}
-      - name: Run unit tests
-        run: python3 -m unittest discover -v
+          name: coverage-${{ env.JOB }}
+          path: ./coverage*.xml
 
   yamllint:
     runs-on: ubuntu-latest
@@ -81,3 +62,18 @@ jobs:
       - name: Run yamllint
         run: |
           yamllint .
+
+  upload-to-codecov:
+    if: ${{ always() }}
+    needs:
+      - unittest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
