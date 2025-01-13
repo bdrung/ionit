@@ -16,7 +16,6 @@ jobs:
           - debian:testing-slim
           - debian:unstable-slim
           - ubuntu:focal
-          - ubuntu:impish
           - ubuntu:jammy
         yaml_package:
           - python3-ruamel.yaml
