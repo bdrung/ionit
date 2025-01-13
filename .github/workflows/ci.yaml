@@ -12,7 +12,8 @@ jobs:
       fail-fast: false
       matrix:
         container:
-          - debian:bullseye-slim
+          - debian:oldstable-slim
+          - debian:stable-slim
           - debian:testing-slim
           - debian:unstable-slim
           - ubuntu:focal
