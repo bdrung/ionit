@@ -85,6 +85,16 @@ def load_python_plugin(file_path, current_context):
     return context
 
 
+def load_yaml(stream):
+    """Parse the first YAML document in a stream
+    and produce the corresponding Python object.
+    """
+    if hasattr(yaml, "YAML"):
+        yaml_object = yaml.YAML(typ="safe")
+        return yaml_object.load(stream)
+    return yaml.load(stream, Loader=yaml.SafeLoader)
+
+
 def get_config_files(paths):
     """Return files for the given paths (could either be files or directories)."""
     logger = logging.getLogger(SCRIPT_NAME)
@@ -123,7 +133,7 @@ def collect_context(paths, encoding):
             elif extension == ".yaml":
                 logger.info("Reading configuration file '%s'...", file)
                 with open(file, encoding=encoding) as config_file:
-                    file_context = yaml.load(config_file, Loader=yaml.SafeLoader)
+                    file_context = load_yaml(config_file)
             else:
                 logger.info(
                     "Skipping configuration file '%s', "
