@@ -18,6 +18,9 @@ jobs:
           - debian:unstable-slim
           - ubuntu:focal
           - ubuntu:jammy
+          - ubuntu:latest
+          - ubuntu:rolling
+          - ubuntu:devel
         yaml_package:
           - python3-ruamel.yaml
           - python3-yaml
